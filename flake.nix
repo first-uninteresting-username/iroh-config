@@ -61,7 +61,6 @@
     packages = forAllSystems (system: let
       pkgs = import nixpkgs {inherit system;};
     in {
-      rebuild = import ./packages/shell-scripts/rebuild {inherit pkgs;};
       sops-easy = import ./packages/shell-scripts/sops-easy {inherit pkgs;};
     });
     formatter = forAllSystems (system: nixpkgs.legacyPackages.${system}.alejandra);

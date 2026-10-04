@@ -19,13 +19,6 @@
     ../../modules/user/xdg.nix
     ../../modules/system/sudo.nix
     ../../modules/system/tty.nix
-    ../../modules/services/home-server.nix
-    ../../modules/services/nas.nix
-    ../../modules/services/smart.nix
-    ../../modules/services/ssh.nix
-    ../../modules/services/sshd.nix
-    ../../modules/services/update.nix
-    ../../modules/services/virtualization.nix
     ../../modules/shell/zsh.nix
     ../../modules/shell/programs.nix
     ../../modules/system/preservation.nix

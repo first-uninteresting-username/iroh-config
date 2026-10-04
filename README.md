@@ -12,20 +12,20 @@ options directly. The login shell is zsh, with completion, autosuggestions,
 syntax highlighting, Oh My Zsh, and the existing command-line tools.
 
 `modules/system/` configures boot, persistence, networking, and secrets;
-`modules/user/` configures the account, theme, Git, and Home Manager;
-`modules/shell/` configures zsh and its tools; and `modules/services/` configures
-the NAS and home server. Web routes and authentication settings live in
-`modules/services/web-settings.nix` without a custom NixOS option layer.
+`modules/user/` configures the account, theme, Git, and Home Manager; and
+`modules/shell/` configures zsh and its tools.
 
-The disabled historical AI and Nixflix sources remain under `archive/` for
-reference. They are not imported and require adaptation to the current module
-layout before use. Desktop and ISO hosts and their unused module variants are
-omitted.
+The service modules have been removed, including the home server, web routing,
+authentication services, NAS, SSH client/server setup, SMART monitoring,
+automatic updates, and container support. The archived AI and Nixflix service
+sources and the update module's `rebuild` helper have also been removed.
+The encrypted secret file remains intact; removed services no longer declare
+or install their secrets.
 
-The update service, `rebuild` helper, and `config` Nix registry alias point to
+The `config` Nix registry alias points to
 `github:first-uninteresting-username/iroh-config/main`. Active dependency pins
-remain at their recovered revisions; unused inputs have been removed with
-`nix flake lock`. The NixOS and Home Manager state versions remain `26.11`.
+remain at their recovered revisions. The NixOS and Home Manager state versions
+remain `26.11`.
 
 ## Build and use
 
@@ -46,10 +46,7 @@ sudo nixos-rebuild switch --flake .#iroh
 
 The host retains its original disk identifiers in `hosts/iroh/disko.nix`,
 including the NVMe root disk and the SSD mounted at `/var/lib`. The large HDD
-is no longer configured. NFS, File Browser, qBittorrent, and aria2 use
-`/var/lib/storage` on the SSD. Existing HDD data is not migrated by this
-configuration change; NFS clients should use the new export path.
-Its initrd recreates the root Btrfs subvolume at boot and
+is no longer configured. Its initrd recreates the root Btrfs subvolume at boot and
 preserves state under `/persist`. Review that layout before installing on any
 replacement hardware. Building the configuration does not partition disks or
 activate it.
@@ -65,8 +62,7 @@ The shared encrypted file also contains entries used by other historical hosts.
 when recovering the machine. The repository contains no private age or SSH key.
 Edit encrypted secrets with `sops` using an existing authorized age identity.
 
-The existing remote update timer and `rebuild` helper fetch this GitHub repository.
-Local rebuilds from a checkout also work.
+Rebuild from the local checkout using the commands above.
 
 ## License
 
@@ -78,9 +74,6 @@ GPL-3.0-or-later; original attribution and license headers are preserved.
 helper packages. `nix fmt -- --check flake.nix hosts modules packages` checks
 formatting. These checks do not execute a full system build or activate it.
 
-The module simplification preserves the evaluated service
-containers, Traefik routes, Authelia policy, LLDAP settings, SSH configuration,
-firewall ports, and secret ownership and paths. The HDD removal changes only
-the storage disk layout and the dependent service paths. The encrypted secrets
-and SOPS recipients are unchanged. zsh replaces Nushell as the user's login shell and
-persists its state under `/persist`.
+The host retains the NVMe root disk, the persistent SSD mounted at `/var/lib`,
+root rollback, the `nixi` user, and zsh. Service removal does not erase existing
+service data on disk. The encrypted secrets and SOPS recipients are unchanged.
