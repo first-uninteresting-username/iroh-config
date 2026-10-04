@@ -45,8 +45,11 @@ sudo nixos-rebuild switch --flake .#iroh
 ```
 
 The host retains its original disk identifiers in `hosts/iroh/disko.nix`,
-including the NVMe root disk, the SSD mounted at `/var/lib`, and the HDD mounted
-at `/mnt/storage`. Its initrd recreates the root Btrfs subvolume at boot and
+including the NVMe root disk and the SSD mounted at `/var/lib`. The large HDD
+is no longer configured. NFS, File Browser, qBittorrent, and aria2 use
+`/var/lib/storage` on the SSD. Existing HDD data is not migrated by this
+configuration change; NFS clients should use the new export path.
+Its initrd recreates the root Btrfs subvolume at boot and
 preserves state under `/persist`. Review that layout before installing on any
 replacement hardware. Building the configuration does not partition disks or
 activate it.
@@ -75,8 +78,9 @@ GPL-3.0-or-later; original attribution and license headers are preserved.
 helper packages. `nix fmt -- --check flake.nix hosts modules packages` checks
 formatting. These checks do not execute a full system build or activate it.
 
-The module simplification preserves the evaluated disk mounts, service
+The module simplification preserves the evaluated service
 containers, Traefik routes, Authelia policy, LLDAP settings, SSH configuration,
-firewall ports, and secret ownership and paths. The encrypted secrets and SOPS
-recipients are unchanged. zsh replaces Nushell as the user's login shell and
+firewall ports, and secret ownership and paths. The HDD removal changes only
+the storage disk layout and the dependent service paths. The encrypted secrets
+and SOPS recipients are unchanged. zsh replaces Nushell as the user's login shell and
 persists its state under `/persist`.

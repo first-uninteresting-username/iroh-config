@@ -146,7 +146,7 @@ in {
         volumes = [
           "${filebrowserStateDir}:/home/filebrowser/data:U"
           "/etc/filebrowser-config.yaml:/home/filebrowser/data/config.yaml:ro"
-          "/mnt/storage:/sources/mnt-storage:ro"
+          "/var/lib/storage:/sources/mnt-storage:ro"
           "/var/lib:/sources/var-lib:ro"
         ];
       };
@@ -188,7 +188,7 @@ in {
 
         volumes = [
           "/var/lib/qbittorrent/config:/config:U"
-          "/mnt/storage/qbittorrent/downloads:/downloads:U"
+          "/var/lib/storage/qbittorrent/downloads:/downloads:U"
         ];
       };
 
@@ -393,7 +393,7 @@ in {
         rpc-listen-all = true;
         rpc-listen-port = 6800;
         rpc-allow-origin-all = true;
-        dir = "/mnt/storage/aria2/downloads";
+        dir = "/var/lib/storage/aria2/downloads";
       };
       rpcSecretFile = config.sops.secrets."aria2/rpc-token".path;
     };
@@ -413,11 +413,11 @@ in {
 
   systemd = {
     tmpfiles.rules = [
-      "d /mnt/storage 0755 root root -"
-      "d /mnt/storage/aria2 0755 aria2 aria2 - -"
-      "d /mnt/storage/aria2/downloads 0755 aria2 aria2 - -"
-      "d /mnt/storage/qbittorrent 0755 root root -"
-      "d /mnt/storage/qbittorrent/downloads 0755 root root -"
+      "d /var/lib/storage 0755 root root -"
+      "d /var/lib/storage/aria2 0755 aria2 aria2 - -"
+      "d /var/lib/storage/aria2/downloads 0755 aria2 aria2 - -"
+      "d /var/lib/storage/qbittorrent 0755 root root -"
+      "d /var/lib/storage/qbittorrent/downloads 0755 root root -"
       "d /var/lib 0755 root root -"
       "d /var/lib/aiostreams/data 0755 root root -"
       "d /var/lib/fgc 0755 root root -"

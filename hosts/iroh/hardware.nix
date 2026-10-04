@@ -44,7 +44,6 @@
     };
     supportedFilesystems = [
       "btrfs"
-      "xfs"
     ];
   };
 
@@ -64,10 +63,6 @@
       ];
     };
   };
-
-  systemd.tmpfiles.rules = [
-    "d /mnt/storage 0755 nixi users -"
-  ];
 
   services = {
     btrfs.autoScrub = {

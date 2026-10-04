@@ -16,7 +16,7 @@
     mountdPort = 4046;
     statdPort = 4047;
     exports = ''
-      /mnt/storage  192.168.0.0/24(rw,sync,no_subtree_check,no_root_squash)
+      /var/lib/storage  192.168.0.0/24(rw,sync,no_subtree_check,no_root_squash)
     '';
   };
   networking.firewall = {

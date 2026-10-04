@@ -74,26 +74,6 @@ _: {
           };
         };
       };
-
-      hdd = {
-        type = "disk";
-        device = "/dev/disk/by-id/ata-WDC_WUH721414ALN600_9JJ0V75T";
-        content = {
-          type = "gpt";
-          partitions = {
-            storage = {
-              size = "100%";
-              content = {
-                type = "filesystem";
-                format = "xfs";
-                extraArgs = ["-d" "su=64k,sw=1" "-l" "size=256m,lazy-count=1"];
-                mountpoint = "/mnt/storage";
-                mountOptions = ["noatime" "largeio" "inode64" "noquota" "allocsize=64m" "nofail"];
-              };
-            };
-          };
-        };
-      };
     };
   };
 }
